@@ -1,0 +1,38 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="NeuralNetworkProject/MultiLayerPerceptron.cs">
+    <Files>
+      <File FileName="NeuralNetworkProject/Program.cs" Line="9" Column="55" />
+      <File FileName="NeuralNetworkProject/MlpNeuron.cs" Line="40" Column="18" />
+      <File FileName="NeuralNetworkProject/FeedForwardNetwork.cs" Line="51" Column="22" />
+      <File FileName="NeuralNetworkProject/NeuralNetwork.cs" Line="26" Column="32" />
+      <File FileName="NeuralNetworkProject/MultiLayerPerceptron.cs" Line="26" Column="18" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="NeuralNetworkProject" expanded="True" selected="True">
+            <Node name="Properties" expanded="True" />
+          </Node>
+          <Node name="NeuralNetworkProjectTests" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/norberg/Projects/NeuralNetworkProject/NeuralNetworkProject/NeuralNetwork.cs" line="9" column="1" />
+      <Breakpoint file="/Users/norberg/Projects/NeuralNetworkProject/NeuralNetworkProject/MultiLayerPerceptron.cs" line="19" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
