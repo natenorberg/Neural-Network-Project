@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 
@@ -66,7 +67,7 @@ namespace NeuralNetworkProject
 
 			if (_isAnnealingUsed)
 			{
-				_learningRate -= _annealingValue;
+				_learningRate -= _annealingValue * _learningRate;
 			}
 		}
 
@@ -87,7 +88,7 @@ namespace NeuralNetworkProject
 
 		private void CalculateSpacingAndSpread()
 		{
-			_spacing = (_upperBound - _lowerBound) / (Math.Pow(_numCenters, 1 / _numDimensions) - 1);
+			_spacing = (_upperBound - _lowerBound) / (Math.Pow(_numCenters, 1.0 / _numDimensions) - 1);
 
 			double maxDistance = Math.Sqrt(2 * Math.Pow(_spacing, 2));
 			_spread = maxDistance / _numCenters;
@@ -122,62 +123,66 @@ namespace NeuralNetworkProject
 		{
 			var hiddenLayer = new List<Neuron>();
 
-			int gridSize = (int)Math.Pow(_numCenters, 1 / _numDimensions);
-			var coordinateList = FindCoordinates(_numDimensions, gridSize);
+			int gridSize = (int)Math.Pow(_numCenters, 1.0 / _numDimensions);
 
-			foreach (var center in coordinateList)
+			// TODO: Find a less horrible way to do this
+			for (int i=0; i<gridSize; i++) 
+
 			{
-				var newNode = new RbfNeuron(center, _spread);
-				hiddenLayer.Add(newNode);
-				Neurons.Add(newNode);
-			}
+				for (int j=0; j<gridSize; j++) 
+				{
+					if (_numDimensions == 2) {
+						double[] center = { (i*_spacing)+_lowerBound, (j*_spacing)+_lowerBound};
+						var newNeuron = new RbfNeuron(center, _spread);
 
-//			for (int i=0; i<gridSize; i++) 
-//			{
-//				for (int j=0; j<gridSize; j++) 
-//				{
-//					double[] center = { (i*_spacing)+_lowerBound, (j*_spacing)+_lowerBound};
-//					var newNeuron = new RbfNeuron(center, _spread);
-//
-//					hiddenLayer.Add(newNeuron);
-//					Neurons.Add(newNeuron);
-//				}
-//			}
+						hiddenLayer.Add(newNeuron);
+						Neurons.Add(newNeuron);
+					}
+					else {
+						for (int k=0; k<gridSize; k++)
+						{
+							if (_numDimensions == 3)
+							{
+								double[] center = new double[3]{ (i*_spacing)+_lowerBound, (j*_spacing)+_lowerBound, (k*_spacing+_lowerBound)};
+								var newNeuron = new RbfNeuron(center, _spread);
+
+								hiddenLayer.Add(newNeuron);
+								Neurons.Add(newNeuron);
+							}
+							else {
+								for (int l=0; l<gridSize; l++)
+								{
+									if (_numDimensions == 4)
+									{
+										double[] center = { (i*_spacing)+_lowerBound, (j*_spacing)+_lowerBound, 
+											(k*_spacing)+_lowerBound, (l*_spacing)+_lowerBound };
+										var newNeuron = new RbfNeuron(center, _spread);
+
+										hiddenLayer.Add(newNeuron);
+										Neurons.Add(newNeuron);
+									}
+									else {
+										for (int m=0; m<gridSize; m++)
+										{
+											double[] center = { (i*_spacing)+_lowerBound, (j*_spacing)+_lowerBound, 
+												(k*_spacing)+_lowerBound, (l*_spacing)+_lowerBound, (m*_spacing)+_lowerBound };
+											var newNeuron = new RbfNeuron(center, _spread);
+
+											hiddenLayer.Add(newNeuron);
+											Neurons.Add(newNeuron);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 
 			hiddenLayer.Add(new BiasNode());
 
 			return hiddenLayer;
 		}
-
-		private List<double[]> FindCoordinates(int numDimensions, int gridSize)
-		{
-			List<double[]> coordinatesList = new List<double[]>();
-			double[] coordinate = new double[numDimensions];
-
-			if (numDimensions == 1)
-			{
-				for (int i=0; i<gridSize; i++)
-				{
-					coordinate[0] = _lowerBound + i * _spacing;
-					coordinatesList.Add(coordinate);
-				}
-			}
-			else
-			{
-				for (int i=0; i<gridSize; i++)
-				{
-					coordinate = _lowerBound + i * _spacing;
-					for (int j=1; j<numDimensions; j++)
-					{
-						coordinate = { coordinate[0], FindCoordinates(numDimensions - 1, gridSize).ToArray() };
-						coordinatesList.Add(coordinate);
-					}
-				}
-			}
-
-			return coordinatesList;
-		}
-
 
 		IEnumerable<Neuron> CreateOutputLayer()
 		{
